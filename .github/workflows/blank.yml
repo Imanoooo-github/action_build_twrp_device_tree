@@ -41,7 +41,7 @@ jobs:
     - name: Download recovery image
       run: |
         wget -O recovery.img "${{ github.event.inputs.IMG_URL }}"
-        file recovery.img || true  # Display file info for debugging
+        file recovery.img || true
       
     - name: Generate device tree
       run: |
@@ -56,16 +56,16 @@ jobs:
         zip -r ../DeviceTree_${{ github.run_number }}.zip .
         cd ..
         
+    # 替换这里！使用ncipollo的release-action
     - name: Create release with device tree
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        files: DeviceTree_${{ github.run_number }}.zip
+        artifacts: "DeviceTree_${{ github.run_number }}.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: dt-${{ github.run_number }}
         name: TWRP_Device_Tree_${{ github.run_number }}
-        tag_name: dt-${{ github.run_number }}
         body: |
           Automatically generated TWRP device tree
           Build run: ${{ github.run_number }}
           Source image: ${{ github.event.inputs.IMG_URL }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # 注意：这里的 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 被移除了，因为已经在 jobs 级别设置
+        allowUpdates: true
