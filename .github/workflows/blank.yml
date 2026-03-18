@@ -16,12 +16,12 @@ jobs:
   generate-device-tree:
     if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-latest
-    env:  # 在这里添加环境变量，对所有步骤生效
+    env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Set up environment
       run: |
