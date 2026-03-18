@@ -16,6 +16,8 @@ jobs:
   generate-device-tree:
     if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-latest
+    env:  # 在这里添加环境变量，对所有步骤生效
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
     - name: Checkout repository
@@ -66,4 +68,4 @@ jobs:
           Source image: ${{ github.event.inputs.IMG_URL }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        # 注意：这里的 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 被移除了，因为已经在 jobs 级别设置
